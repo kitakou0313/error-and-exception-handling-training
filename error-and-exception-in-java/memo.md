@@ -48,6 +48,29 @@ try {
         - 例外発生した処理に戻らない
 - JavaではTerminationを採用
 
+### メソッドが発生させる例外の宣言
+- `throws`キーワードでそのメソッドがthrowする例外の種類を宣言できる
+
+```java
+void f() throws TooBig, TooSmall, DivZero{
+
+}
+```
+
+- コンパイラがこのメソッドの呼び出し元にこの例外の処理を強制できる
+    - checked exceptionと呼ばれる
+- 実際にはthrowする実装がなくても宣言してよい
+
+### 独自の例外クラスの定義
+継承により独自の例外クラスを定義できる
+
+```java
+class SimpleExecption extends Exception {}
+```
+
+- エラーメッセージの出力には`System.out`ではなく`System.err`を使う
+- `printStackTrace()`で例外を発生させたメソッドまでのスタックトレースが生成できる
+
 # メモ
 - 単語から関連する推察とその理由を引いてくる
     - ヒープ上に作成されるオブジェクト -> グローバルなもの -> 確かにスコープを超えて共有したいのであっている
