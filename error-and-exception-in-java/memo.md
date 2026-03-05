@@ -48,6 +48,19 @@ try {
         - 例外発生した処理に戻らない
 - JavaではTerminationを採用
 
+- 再度throwすることができる
+
+```java
+catch (Exception e) {
+    throw e;
+}
+```
+
+- `Throwable`のサブクラスは例外を元に生成できる
+```java
+throw new RuntimeException(e);
+```
+
 ### メソッドが発生させる例外の宣言
 - `throws`キーワードでそのメソッドがthrowする例外の種類を宣言できる
 
@@ -71,6 +84,28 @@ class SimpleExecption extends Exception {}
 - エラーメッセージの出力には`System.out`ではなく`System.err`を使う
 - `printStackTrace()`で例外を発生させたメソッドまでのスタックトレースが生成できる
 
+## Javaでの標準的な例外
+### Throwableを持つクラス
+Throwable
+├── Error        ← JVMのエラー(usually not caught)
+└── Exception    ← 実装者がハンドリングできるExceptions
+    └── RuntimeException ← 非チェック例外(indicate bugs)
+
+### 非チェック例外について
+- コンパイラが実装時にハンドリングを強制しないException
+- 自動的に発生させられる
+    - NullPointerException
+    - ArrayIndexOutOfBoundsException
+- これらはバグと考えられるため、通常対応しない
+- `RuntimeException`の理由
+    - コントロール外の部分で起きたエラー
+        - 例:Null reference
+            - メモ:誰視点？どこまでが予想すべき責任範囲？
+    - 実装者がチェックすべき内容
+        - 例:配列のindexを超える
+            - メモ:じゃあcheck例外でいいのでは
+
 # メモ
 - 単語から関連する推察とその理由を引いてくる
     - ヒープ上に作成されるオブジェクト -> グローバルなもの -> 確かにスコープを超えて共有したいのであっている
+- 具体例を用いて考える
