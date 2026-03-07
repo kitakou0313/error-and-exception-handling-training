@@ -121,6 +121,37 @@ Throwable
         - まとめ
             - 利用者の対応が必要かいなかが点
 
+### Check例外にまつわる問題
+- 大規模な開発においては開発の障害になる
+    - メモ:handlerの実装を強制するため
+- しかし、以下のように例外を無視してはいけない
+
+```java
+try {
+    // ...
+} catch (ObligatoryException e) {} 
+```
+- 解消案1:コンソールに流す
+    - 全部をmainまで伝搬させる
+```java
+public static void main(String[] args) throws Exception {
+    // Let all exceptions go to the console
+}
+```
+- 解消案2:非チェック例外に差し替える
+    - 元の例外は`getCause()`で取得可能
+    - `throws`宣言なしで取得できる
+```java
+try {
+
+}catch (CheckedException e){
+    throw new RuntimeException(e);
+}
+```
+- メモ:例外の伝搬を面倒にしないようにするため？
+
+## ガイドライン
+
 # メモ
 - 単語から関連する推察とその理由を引いてくる
     - ヒープ上に作成されるオブジェクト -> グローバルなもの -> 確かにスコープを超えて共有したいのであっている
